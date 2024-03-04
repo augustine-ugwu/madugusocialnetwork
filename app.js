@@ -13,16 +13,16 @@ app.use(express.urlencoded({ extended: false }));
 connectDB();
 
 //routes
-app.get('/M00914279/posts', async (req, res)=>{
+app.get('/M00908746/posts', async (req, res)=>{
   const posts = await Post.find()
   res.status(200).json(posts)
 })
 
 // register user
-app.post('/M00914279/user/register', async (req, res)=>{
-  const {userid, email, fullname, password} = req.body
+app.post('/M00908746/register', async (req, res)=>{
+  const {username, email, fullname, password} = req.body
   
-  if(!userid || !email || !fullname || !password){
+  if(!username || !email || !fullname || !password){
       res.status(400)
       throw new Error(`Please body can't be empty`)
   }
@@ -33,7 +33,7 @@ app.post('/M00914279/user/register', async (req, res)=>{
 
   // create user
   const user = await User.create({
-      userid,
+      username,
       fullname,
       email,
       password: hashed_password
@@ -41,14 +41,14 @@ app.post('/M00914279/user/register', async (req, res)=>{
 
     res.status(201).json({
         _id: user.id,
-        userid: user.userid,
+        userid: user.username,
         fullname: user.fullname
     })
 })
 
 
 // user post content
-app.post('/M00914279', async (req, res)=>{
+app.post('/M00908746', async (req, res)=>{
   const {author, title, content} = req.body
   
   if(!title || !content){
@@ -72,7 +72,7 @@ app.post('/M00914279', async (req, res)=>{
 
 
 // edit post
-app.put('/M00914279/update/post/:id', async (req, res)=>{
+app.put('/M00908746/update/post/:id', async (req, res)=>{
   const post = await  Post.findById(req.params.id)
 
   if(!post){
